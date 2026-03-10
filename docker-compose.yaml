@@ -10,4 +10,4 @@ services:
     provider: 
       type: model
       options:
-        model: ai/smollm2:latest
+        model: ai/smollm2:135M-Q4_K_M

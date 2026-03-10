@@ -18,10 +18,3 @@ if st.button("Ask"):
             st.write(response.choices[0].message.content)
         except Exception as e:
             st.error(f"Error: {e}")
-
-
-
-
-
-#docker build -t rag-app-example .
-#docker run -p 8501:8501 rag-app-example
