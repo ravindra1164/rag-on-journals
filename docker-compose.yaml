@@ -1,0 +1,13 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8501:8501"
+    depends_on:
+      - llm
+
+  llm:
+    provider: 
+      type: model
+      options:
+        model: ai/smollm2:latest
