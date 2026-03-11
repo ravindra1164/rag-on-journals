@@ -1,7 +1,18 @@
 import streamlit as st
-from openai import OpenAI
+from langchain_ollama.llms import OllamaLLM
+from langchain_core.prompts import ChatPromptTemplate
+from vector import retriever
 
-client = OpenAI(base_url="http://model-runner.docker.internal/engines/v1/", api_key="Loltestlol")
+model = OllamaLLM(model="smollm2:135m")
+template = """
+You are an exeprt in answering questions about a pizza restaurant
+
+Here are some relevant reviews: {reviews}
+
+Here is the question to answer: {question}
+"""
+prompt = ChatPromptTemplate.from_template(template)
+chain = prompt | model
 
 st.title("Simple Streamlit Chat App")
 
@@ -9,12 +20,8 @@ prompt = st.text_input("Enter your question:", value="What is the capital of Fra
 if st.button("Ask"):
     with st.spinner("Getting answer..."):
         messages = [{"role": "user", "content": prompt}]
-        try:
-            response = client.chat.completions.create(
-                model="ai/smollm2:135M-Q4_K_M",
-                messages=messages,
-            )
-            st.success("Response received!")
-            st.write(response.choices[0].message.content)
-        except Exception as e:
-            st.error(f"Error: {e}")
+        reviews = retriever.invoke(prompt)
+        result = chain.invoke({"reviews": reviews, "question": prompt})
+        st.success("Response received!")
+        st.write(result)
+        

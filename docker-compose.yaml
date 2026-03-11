@@ -1,13 +1,33 @@
+version: "1.0.0"
+
 services:
+  ollama:
+    container_name: ollama
+    image: ollama/ollama:latest
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - app-network
   app:
+    container_name: rag-app
     build: .
     ports:
       - "8501:8501"
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - OLLAMA_MODEL=smollm2
     depends_on:
-      - llm
+      - ollama
+    networks:
+      - app-network
+  
+networks:
+  app-network:
+    driver: bridge
 
-  llm:
-    provider: 
-      type: model
-      options:
-        model: ai/smollm2:135M-Q4_K_M
+volumes:
+  ollama_data:

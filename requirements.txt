@@ -1,3 +1,6 @@
 streamlit
-openai
 requests
+langchain
+langchain_ollama
+langchain-chroma
+pandas
