@@ -1,0 +1,10 @@
+FROM nginx:alpine
+
+# Copy custom nginx configuration file to the container
+#COPY nginx.conf /etc/nginx/nginx.conf
+
+# Copy static content (optional, if you have any)
+COPY . /usr/share/nginx/html
+
+# Ensure NGINX runs in the foreground, essential for Docker to track the process
+CMD ["nginx", "-g", "daemon off;"]
