@@ -19,7 +19,7 @@ def get_relavent_reviews(user_query: str):
     reviews = retriever.invoke(user_query)
     return reviews
 
-async def main():
+def main():
     prompt = """
         You are an exeprt in answering questions about a pizza restaurant. 
         
@@ -37,11 +37,13 @@ async def main():
             }
         }
     )
-    mcp_tools = await client.get_tools()
+    mcp_tools = client.get_tools()
     lc_tools = [get_relavent_reviews]
+    print("MCP Tools:", mcp_tools)
+    print("Langchain Tools:", lc_tools)
     tools = mcp_tools+lc_tools
     agent = create_agent(
-        model="ollama:qwen3.5:0.8b", 
+        model="ollama:qwen3.5:0.8b",
         tools=tools,
         system_prompt=prompt
     )
@@ -76,16 +78,17 @@ async def main():
     if st.button("Ask"):
         with st.spinner("Getting answer..."):
             message = {"role": "user", "messages": prompt}
-            response_full = await agent.ainvoke(message)
+            response_full = agent.ainvoke(message)
             st.success("Response received!")
-            for response in response_full.get('messages') :
+            st.write(response_full)
+            #for response in response_full.get('messages') :
                 #print("Message type : ", response.type)
                 #print(response)
                 #if response.type == "tool":
                 #    st.write(response.content[0].get('text'))
                 #el
-                if response.type == "ai":
-                    st.write(response.content)
+             #   if response.type == "ai":
+             #       st.write(response.content)
             
             #reviews = retriever.invoke(prompt)
             #result = chain.invoke({"reviews": reviews, "question": prompt})
@@ -111,4 +114,4 @@ async def main():
     #print("Done.")
 
 if __name__ == "__main__":
-    asyncio.run(main()) 
+    main() 

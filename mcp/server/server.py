@@ -13,4 +13,7 @@ async def greet_custom(name: str) -> str:
     return f"Hello, {name}! Lol Welcome to our pizza restaurant! 🍕"
 
 if __name__ == "__main__":
-    mcp.run(transport="http")
+    host = "0.0.0.0"
+    port = 8000
+    transport = "http"
+    mcp.run(transport=transport, host=host, port=port)

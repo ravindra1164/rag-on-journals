@@ -1,0 +1,13 @@
+# syntax=docker/dockerfile:1
+FROM python:3.13-slim
+WORKDIR /code
+COPY requirements.txt ./
+RUN pip install -r ./requirements.txt
+COPY . .
+EXPOSE 8000
+
+ENV FASTMCP_HOST=0.0.0.0
+ENV FASTMCP_PORT=8000
+ENV MCP_TRANSPORT=http
+ENV PYTHONUNBUFFERED=1
+CMD ["python", "mcp/server/server.py"]
