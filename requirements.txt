@@ -1,10 +1,8 @@
 streamlit
-requests
 langchain
 langchain_ollama
 langchain-chroma
 langchain-mcp-adapters
-langchain-openai
 fastmcp
 pandas
 asyncio

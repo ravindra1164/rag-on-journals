@@ -15,5 +15,5 @@ async def greet_custom(name: str) -> str:
 if __name__ == "__main__":
     host = "0.0.0.0"
     port = 8000
-    transport = "http"
+    transport = "streamable-http"
     mcp.run(transport=transport, host=host, port=port)
